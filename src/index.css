@@ -143,15 +143,17 @@ body {
 }
 
 .meter-horse {
-  width: clamp(64px, 18vw, 96px);
-  color: var(--fare-green);
-  filter: drop-shadow(0 0 10px rgba(0, 230, 118, 0.5));
+  width: clamp(72px, 20vw, 110px);
+  line-height: 0;
 }
 
-.meter-horse svg {
+.horse-animation__frame {
   width: 100%;
   height: auto;
   display: block;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .meter-percent {

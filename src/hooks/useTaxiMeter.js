@@ -5,11 +5,12 @@ function formatNumber(n) {
   return String(Math.round(n));
 }
 
-export function useTaxiMeter() {
-  const [mode, setMode] = useState("driving");
+export function useTaxiMeter({ manualSpeedKmh = null } = {}) {
+  const [mode, setMode] = useState("empty");
   const [fare, setFare] = useState(CONFIG.initialFare);
   const [countdown, setCountdown] = useState(CONFIG.countdownStart);
   const [surcharge, setSurcharge] = useState(false);
+  const [speedKmh, setSpeedKmh] = useState(0);
   const [speed, setSpeed] = useState("0.0 Km/h");
 
   const modeRef = useRef(mode);
@@ -28,15 +29,27 @@ export function useTaxiMeter() {
     return surchargeRef.current ? base * 1.5 : base;
   }, []);
 
-  const updateSpeed = useCallback((currentMode) => {
-    if (currentMode === "driving") {
-      const wobble = Math.sin(Date.now() / 400) * 2;
-      const nextSpeed = (CONFIG.simulatedSpeedKmh + wobble).toFixed(1);
-      setSpeed(`${nextSpeed} Km/h`);
-    } else {
-      setSpeed("0.0 Km/h");
-    }
+  const applySpeed = useCallback((kmh) => {
+    setSpeedKmh(kmh);
+    setSpeed(`${kmh.toFixed(1)} Km/h`);
   }, []);
+
+  const updateSpeed = useCallback(
+    (currentMode) => {
+      if (manualSpeedKmh !== null) {
+        applySpeed(manualSpeedKmh);
+        return;
+      }
+
+      if (currentMode === "driving") {
+        const wobble = Math.sin(Date.now() / 400) * 2;
+        applySpeed(CONFIG.simulatedSpeedKmh + wobble);
+      } else {
+        applySpeed(0);
+      }
+    },
+    [manualSpeedKmh, applySpeed],
+  );
 
   const setMeterMode = useCallback(
     (nextMode) => {
@@ -67,7 +80,7 @@ export function useTaxiMeter() {
 
     updateSpeed("driving");
 
-    const tickTimer = setInterval(() => {
+    const countdownTimer = setInterval(() => {
       if (modeRef.current !== "driving") return;
 
       setCountdown((currentCountdown) => {
@@ -81,12 +94,22 @@ export function useTaxiMeter() {
 
         return nextCountdown;
       });
-
-      updateSpeed("driving");
     }, CONFIG.countdownStepMs);
 
-    return () => clearInterval(tickTimer);
-  }, [mode, getIncrement, updateSpeed]);
+    let speedTimer;
+
+    if (manualSpeedKmh === null) {
+      speedTimer = setInterval(() => {
+        if (modeRef.current !== "driving") return;
+        updateSpeed("driving");
+      }, CONFIG.speedUpdateMs);
+    }
+
+    return () => {
+      clearInterval(countdownTimer);
+      if (speedTimer) clearInterval(speedTimer);
+    };
+  }, [mode, manualSpeedKmh, getIncrement, updateSpeed]);
 
   const handleEmpty = useCallback(() => setMeterMode("empty"), [setMeterMode]);
 
@@ -138,6 +161,7 @@ export function useTaxiMeter() {
     fare: formatNumber(fare),
     countdown: formatNumber(Math.max(0, countdown)),
     horsePercent,
+    speedKmh,
     speed,
     activeButton,
     handleEmpty,

@@ -14,7 +14,10 @@ export function DrivingScreen({ meter }) {
       meter={meter}
     >
       <MeterSection>
-        <MeterHorseBlock percent={meter.horsePercent} />
+        <MeterHorseBlock
+          percent={meter.horsePercent}
+          speedKmh={meter.speedKmh}
+        />
         <MeterMeta speed={meter.speed} />
         <MeterFare fare={meter.fare} />
         <MeterBottom countdown={meter.countdown} />

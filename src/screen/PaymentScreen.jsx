@@ -14,7 +14,7 @@ export function PaymentScreen({ meter }) {
       meter={meter}
     >
       <MeterSection>
-        <MeterHorseBlock percent={meter.horsePercent} />
+        <MeterHorseBlock percent={meter.horsePercent} speedKmh={0} />
         <MeterMeta speed="0.0 Km/h" />
         <MeterFare fare={meter.fare} />
         <MeterBottom countdown={meter.countdown} />

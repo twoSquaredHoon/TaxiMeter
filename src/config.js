@@ -2,8 +2,9 @@ export const CONFIG = {
   initialFare: 3000,
   fareIncrement: 100,
   countdownStart: 2000,
-  countdownStepMs: 120,
-  countdownDecreasePerTick: 4,
+  countdownStepMs: 1000,
+  countdownDecreasePerTick: 100,
+  speedUpdateMs: 120,
   simulatedSpeedKmh: 42,
 };
 
