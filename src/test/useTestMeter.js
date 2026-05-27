@@ -22,12 +22,12 @@ export function useTestMeter() {
     setManualPercentValue(null);
   }, []);
 
-  const isEmpty = base.mode === "empty";
+  const isMeterPaused = base.mode === "empty" || base.mode === "payment";
 
-  const speedKmh = isEmpty ? 0 : (manualSpeedKmh ?? base.speedKmh);
-  const horseProgress = isEmpty ? 0 : (manualPercent ?? base.horseProgress);
+  const speedKmh = isMeterPaused ? 0 : (manualSpeedKmh ?? base.speedKmh);
+  const horseProgress = isMeterPaused ? 0 : (manualPercent ?? base.horseProgress);
   const horsePercent = `${horseProgress}%`;
-  const horseIsRunning = !isEmpty && (speedKmh > 0 || horseProgress > 0);
+  const horseIsRunning = !isMeterPaused && (speedKmh > 0 || horseProgress > 0);
 
   return {
     ...base,

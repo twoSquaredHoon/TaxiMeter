@@ -1,9 +1,9 @@
 import { ScreenLayout } from "../../screen/shared/ScreenLayout.jsx";
 import { MeterSection } from "../../screen/shared/MeterSection.jsx";
 import { MeterMeta } from "../../screen/shared/MeterMeta.jsx";
-import { MeterFare } from "../../screen/shared/MeterFare.jsx";
-import { MeterBottom } from "../../screen/shared/MeterBottom.jsx";
+import { MeterFareStack } from "../../screen/shared/MeterFareStack.jsx";
 import { TestMeterHorseBlock } from "../TestMeterHorseBlock.jsx";
+import { CONFIG } from "../../config.js";
 
 export function TestPaymentScreen({ meter }) {
   return (
@@ -13,14 +13,12 @@ export function TestPaymentScreen({ meter }) {
       meter={meter}
     >
       <MeterSection>
-        <TestMeterHorseBlock
-          percent={meter.horsePercent}
-          isRunning={meter.horseIsRunning}
-          surcharge={false}
+        <TestMeterHorseBlock percent="0%" isRunning={false} surcharge={false} />
+        <MeterMeta speed="0.0 Km/h" />
+        <MeterFareStack
+          fare={meter.fare}
+          countdown={String(CONFIG.countdownStart)}
         />
-        <MeterMeta speed={meter.speed} />
-        <MeterFare fare={meter.fare} />
-        <MeterBottom countdown={meter.countdown} />
       </MeterSection>
     </ScreenLayout>
   );

@@ -2,8 +2,7 @@ import { ScreenLayout } from "./shared/ScreenLayout.jsx";
 import { MeterSection } from "./shared/MeterSection.jsx";
 import { MeterHorseBlock } from "./shared/MeterHorseBlock.jsx";
 import { MeterMeta } from "./shared/MeterMeta.jsx";
-import { MeterFare } from "./shared/MeterFare.jsx";
-import { MeterBottom } from "./shared/MeterBottom.jsx";
+import { MeterFareStack } from "./shared/MeterFareStack.jsx";
 
 /** 주행 — live fare, countdown, and speed simulation */
 export function DrivingScreen({ meter }) {
@@ -20,8 +19,7 @@ export function DrivingScreen({ meter }) {
           surcharge={meter.surcharge}
         />
         <MeterMeta speed={meter.speed} />
-        <MeterFare fare={meter.fare} />
-        <MeterBottom countdown={meter.countdown} />
+        <MeterFareStack fare={meter.fare} countdown={meter.countdown} />
       </MeterSection>
     </ScreenLayout>
   );

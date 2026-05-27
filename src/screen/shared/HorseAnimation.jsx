@@ -22,6 +22,12 @@ function loadFrames(modules, pattern) {
 
 const GREEN_FRAMES = loadFrames(greenModules, /horse-(\d+)\.png$/);
 const HURRY_FRAMES = loadFrames(hurryModules, /hurry-(\d+)\.png$/);
+const FRAME_COUNT = Math.min(GREEN_FRAMES.length, HURRY_FRAMES.length);
+
+for (const src of [...GREEN_FRAMES, ...HURRY_FRAMES]) {
+  const img = new Image();
+  img.src = src;
+}
 
 /** Frame duration (ms): slow at 0%, normal at 50%, fast at 100% */
 const SLOW_FRAME_MS = 500;
@@ -54,18 +60,12 @@ export function HorseAnimation({
   isRunning = false,
   variant = "green",
 }) {
-  const frames = variant === "hurry" ? HURRY_FRAMES : GREEN_FRAMES;
   const [frameIndex, setFrameIndex] = useState(0);
   const percentValue = parsePercentValue(percent);
+  const safeIndex = FRAME_COUNT === 0 ? 0 : frameIndex % FRAME_COUNT;
 
   useEffect(() => {
-    setFrameIndex((current) =>
-      frames.length === 0 ? 0 : current % frames.length,
-    );
-  }, [variant, frames.length]);
-
-  useEffect(() => {
-    if (!isRunning || frames.length === 0) {
+    if (!isRunning || FRAME_COUNT === 0) {
       setFrameIndex(0);
       return undefined;
     }
@@ -73,23 +73,34 @@ export function HorseAnimation({
     const intervalMs = frameIntervalMsFromPercent(percentValue);
 
     const timer = setInterval(() => {
-      setFrameIndex((current) => (current + 1) % frames.length);
+      setFrameIndex((current) => (current + 1) % FRAME_COUNT);
     }, intervalMs);
 
     return () => clearInterval(timer);
-  }, [isRunning, percentValue, frames.length]);
+  }, [isRunning, percentValue]);
 
-  if (frames.length === 0) {
+  if (FRAME_COUNT === 0) {
     return null;
   }
 
+  const showHurry = variant === "hurry";
+
   return (
-    <img
-      className="horse-animation__frame"
-      src={frames[frameIndex]}
-      alt=""
-      aria-hidden="true"
-      draggable={false}
-    />
+    <div className="horse-animation">
+      <img
+        className={`horse-animation__frame horse-animation__frame--green${showHurry ? "" : " is-visible"}`}
+        src={GREEN_FRAMES[safeIndex]}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+      />
+      <img
+        className={`horse-animation__frame horse-animation__frame--hurry${showHurry ? " is-visible" : ""}`}
+        src={HURRY_FRAMES[safeIndex]}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+      />
+    </div>
   );
 }

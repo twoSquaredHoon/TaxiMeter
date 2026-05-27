@@ -2,10 +2,10 @@ import { ScreenLayout } from "./shared/ScreenLayout.jsx";
 import { MeterSection } from "./shared/MeterSection.jsx";
 import { MeterHorseBlock } from "./shared/MeterHorseBlock.jsx";
 import { MeterMeta } from "./shared/MeterMeta.jsx";
-import { MeterFare } from "./shared/MeterFare.jsx";
-import { MeterBottom } from "./shared/MeterBottom.jsx";
+import { MeterFareStack } from "./shared/MeterFareStack.jsx";
+import { CONFIG } from "../config.js";
 
-/** 지불 — fare held for payment, simulation stopped */
+/** 지불 — fare held for payment; horse and countdown reset and dimmed */
 export function PaymentScreen({ meter }) {
   return (
     <ScreenLayout
@@ -14,14 +14,12 @@ export function PaymentScreen({ meter }) {
       meter={meter}
     >
       <MeterSection>
-        <MeterHorseBlock
-          percent={meter.horsePercent}
-          speedKmh={0}
-          surcharge={false}
-        />
+        <MeterHorseBlock percent="0%" speedKmh={0} surcharge={false} />
         <MeterMeta speed="0.0 Km/h" />
-        <MeterFare fare={meter.fare} />
-        <MeterBottom countdown={meter.countdown} />
+        <MeterFareStack
+          fare={meter.fare}
+          countdown={String(CONFIG.countdownStart)}
+        />
       </MeterSection>
     </ScreenLayout>
   );

@@ -64,6 +64,11 @@ export function useTaxiMeter() {
         resetMeter();
         applySpeed(0);
       }
+
+      if (nextMode === "payment") {
+        setCountdown(CONFIG.countdownStart);
+        applySpeed(0);
+      }
     },
     [resetMeter, applySpeed],
   );
@@ -129,15 +134,18 @@ export function useTaxiMeter() {
     [setMeterMode],
   );
 
-  const progress =
-    mode === "empty" ? 0 : 1 - countdown / CONFIG.countdownStart;
-  const horseProgress =
-    mode === "empty"
-      ? 0
-      : Math.min(100, Math.max(0, Math.round(progress * 100)));
+  const isMeterPaused = mode === "empty" || mode === "payment";
+
+  const progress = isMeterPaused ? 0 : 1 - countdown / CONFIG.countdownStart;
+  const horseProgress = isMeterPaused
+    ? 0
+    : Math.min(100, Math.max(0, Math.round(progress * 100)));
   const horsePercent = `${horseProgress}%`;
-  const displaySpeedKmh = mode === "empty" ? 0 : speedKmh;
-  const displaySpeed = mode === "empty" ? "0.0 Km/h" : speed;
+  const displaySpeedKmh = isMeterPaused ? 0 : speedKmh;
+  const displaySpeed = isMeterPaused ? "0.0 Km/h" : speed;
+  const displayCountdown = isMeterPaused
+    ? CONFIG.countdownStart
+    : Math.max(0, countdown);
 
   const statusText = surcharge
     ? STATUS_LABELS.surcharge
@@ -165,7 +173,7 @@ export function useTaxiMeter() {
     appClassName,
     statusText,
     fare: formatNumber(fare),
-    countdown: formatNumber(Math.max(0, countdown)),
+    countdown: formatNumber(displayCountdown),
     horsePercent,
     horseProgress,
     speedKmh: displaySpeedKmh,
