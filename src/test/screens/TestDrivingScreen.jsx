@@ -1,6 +1,5 @@
 import { ScreenLayout } from "../../screen/shared/ScreenLayout.jsx";
 import { MeterSection } from "../../screen/shared/MeterSection.jsx";
-import { MeterMeta } from "../../screen/shared/MeterMeta.jsx";
 import { MeterFareStack } from "../../screen/shared/MeterFareStack.jsx";
 import { TestMeterHorseBlock } from "../TestMeterHorseBlock.jsx";
 
@@ -17,8 +16,11 @@ export function TestDrivingScreen({ meter }) {
           isRunning={meter.horseIsRunning}
           surcharge={meter.surcharge}
         />
-        <MeterMeta speed={meter.speed} />
-        <MeterFareStack fare={meter.fare} countdown={meter.countdown} />
+        <MeterFareStack
+          fare={meter.fare}
+          countdown={meter.countdown}
+          speed={meter.speed}
+        />
       </MeterSection>
     </ScreenLayout>
   );

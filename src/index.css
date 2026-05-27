@@ -57,9 +57,11 @@ body {
 }
 
 .app {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100%;
+  min-height: 0;
+  overflow: hidden;
   padding: var(--pad);
   gap: var(--gap);
   background: var(--bg-app);
@@ -90,22 +92,32 @@ body {
   background: #b8e6a0;
 }
 
+/* Middle band only — never overlaps .button-grid below */
 .meter {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  container-type: size;
+  container-name: meter;
   min-height: 0;
-  padding: clamp(8px, 2vh, 16px) 0;
+  max-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: clamp(4px, 1vh, 10px) 0;
 }
 
 .meter-panel {
   container-type: inline-size;
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: flex-start;
   text-align: right;
-  gap: clamp(18px, 4.5vh, 32px);
+  gap: clamp(6px, 1.5cqh, 14px);
   width: 100%;
   max-width: 100%;
   padding-right: 0.15em;
@@ -132,12 +144,28 @@ body {
   flex-direction: column;
   align-items: flex-end;
   gap: 0.35em;
-  flex-shrink: 0;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 76cqh;
+  max-width: 100%;
 }
 
 .meter-horse {
-  width: clamp(72px, 20vw, 110px);
+  position: relative;
+  width: min(clamp(320px, 88cqw, 480px), 100%);
+  max-height: 68cqh;
   line-height: 0;
+}
+
+.meter-horse .horse-animation {
+  max-height: 68cqh;
+}
+
+.meter-horse .horse-animation__frame {
+  max-height: 68cqh;
+  width: auto;
+  max-width: 100%;
+  margin-left: auto;
 }
 
 .horse-animation {
@@ -160,6 +188,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
+  max-height: 100%;
 }
 
 .horse-animation__frame.is-visible {
@@ -188,6 +217,24 @@ body {
   gap: 0.1em;
   width: 100%;
   max-width: 100%;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+.meter-fare-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  gap: 0.15em;
+}
+
+.meter-fare-stack__speed {
+  align-self: flex-start;
+  text-align: left;
+  font-size: clamp(0.8rem, 3.2cqw, 1.05rem);
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
 .meter-fare-block {
@@ -244,19 +291,17 @@ body {
 .meter-countdown {
   font-family: "Share Tech Mono", monospace;
   font-weight: 700;
-  font-size: clamp(1.35rem, 6.5vw, 2rem);
+  font-size: clamp(1rem, 5cqh, 1.75rem);
   color: var(--fare-magenta);
   text-shadow: 0 0 14px rgba(255, 34, 153, 0.45);
   font-variant-numeric: tabular-nums;
 }
 
 .app.state-empty .meter-horse-block,
-.app.state-empty .meter-meta,
 .app.state-empty .meter-fare-stack,
 .app.state-empty .meter-fare-block,
 .app.state-empty .meter-bottom,
 .app.state-payment .meter-horse-block,
-.app.state-payment .meter-meta,
 .app.state-payment .meter-bottom {
   opacity: 0.35;
 }
@@ -266,12 +311,16 @@ body {
   opacity: 1;
 }
 
+.app.state-payment .meter-fare-stack__speed {
+  opacity: 0.35;
+}
+
 .button-grid {
-  flex-shrink: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--gap);
-  min-height: clamp(200px, 32vh, 280px);
+  min-height: clamp(140px, 22vh, 220px);
+  max-height: 30vh;
 }
 
 .ctrl-btn {
@@ -317,15 +366,26 @@ body {
 
 @media (max-height: 640px) {
   .meter-panel {
-    gap: 12px;
+    gap: 6px;
+  }
+
+  .meter-horse-block {
+    max-height: 68cqh;
+  }
+
+  .meter-horse,
+  .meter-horse .horse-animation,
+  .meter-horse .horse-animation__frame {
+    max-height: 60cqh;
   }
 
   .button-grid {
-    min-height: 160px;
+    min-height: 130px;
+    max-height: 28vh;
   }
 
   .ctrl-btn {
-    min-height: 72px;
+    min-height: 64px;
     font-size: 1.2rem;
   }
 

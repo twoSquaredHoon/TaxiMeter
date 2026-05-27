@@ -1,7 +1,6 @@
 import { ScreenLayout } from "./shared/ScreenLayout.jsx";
 import { MeterSection } from "./shared/MeterSection.jsx";
 import { MeterHorseBlock } from "./shared/MeterHorseBlock.jsx";
-import { MeterMeta } from "./shared/MeterMeta.jsx";
 import { MeterFareStack } from "./shared/MeterFareStack.jsx";
 import { CONFIG } from "../config.js";
 
@@ -15,10 +14,10 @@ export function PaymentScreen({ meter }) {
     >
       <MeterSection>
         <MeterHorseBlock percent="0%" speedKmh={0} surcharge={false} />
-        <MeterMeta speed="0.0 Km/h" />
         <MeterFareStack
           fare={meter.fare}
           countdown={String(CONFIG.countdownStart)}
+          speed="0.0 Km/h"
         />
       </MeterSection>
     </ScreenLayout>
