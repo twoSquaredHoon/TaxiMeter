@@ -13,8 +13,7 @@ export function ControlButtons({ meter }) {
         className="ctrl-btn btn-driving"
         onClick={meter.handleDriving}
       >
-        <span>주행</span>
-        <span>(시외)</span>
+        주행
       </button>
       <button
         type="button"

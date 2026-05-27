@@ -10,7 +10,6 @@
   --fare-green: #00e676;
   --fare-magenta: #ff2299;
   --fare-purple: #9966cc;
-  --fare-secondary: #ccff44;
   --label-pale: #e8f0ff;
   --pad: clamp(14px, 4vw, 22px);
   --gap: clamp(12px, 3vw, 18px);
@@ -117,14 +116,6 @@ body {
   gap: 0.35em;
 }
 
-.meter-trip {
-  font-family: "Share Tech Mono", monospace;
-  font-weight: 700;
-  font-size: clamp(1.25rem, 5.5vw, 1.75rem);
-  color: var(--fare-purple);
-  line-height: 1;
-}
-
 .meter-speed {
   font-family: "Share Tech Mono", monospace;
   font-weight: 700;
@@ -145,6 +136,14 @@ body {
 .meter-horse {
   width: clamp(72px, 20vw, 110px);
   line-height: 0;
+}
+
+.meter-horse--green .horse-animation__frame {
+  filter: drop-shadow(0 0 10px rgba(0, 230, 118, 0.45));
+}
+
+.meter-horse--hurry .horse-animation__frame {
+  filter: drop-shadow(0 0 10px rgba(255, 128, 171, 0.4));
 }
 
 .horse-animation__frame {
@@ -211,14 +210,6 @@ body {
   color: var(--fare-magenta);
   text-shadow: 0 0 14px rgba(255, 34, 153, 0.45);
   font-variant-numeric: tabular-nums;
-}
-
-.meter-secondary {
-  font-family: "Share Tech Mono", monospace;
-  font-weight: 700;
-  font-size: clamp(1.25rem, 5.5vw, 1.75rem);
-  color: var(--fare-secondary);
-  text-shadow: 0 0 10px rgba(204, 255, 68, 0.3);
 }
 
 .app.state-empty .meter {

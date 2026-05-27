@@ -4,6 +4,7 @@ export const CONFIG = {
   countdownStart: 2000,
   countdownStepMs: 1000,
   countdownDecreasePerTick: 100,
+  surchargeCountdownMultiplier: 2,
   speedUpdateMs: 120,
   simulatedSpeedKmh: 42,
 };

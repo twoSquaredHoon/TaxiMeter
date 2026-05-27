@@ -22,13 +22,12 @@ Open the URL from the terminal (usually [http://localhost:5173](http://localhost
 
 Open [http://localhost:5173/test/](http://localhost:5173/test/) (or run `npm run dev:test`).
 
-A panel in the **bottom-right** lets you set speed manually:
+A **bottom-right test menu** (test-only files under `src/test/`) lets you override:
 
-- Preset buttons: `0`, `20`, `40`, `60`, `80` km/h
-- Custom value input + **적용**
-- **자동 속도** — returns to simulated speed while driving
+- **속도** — presets `0–80` km/h, custom input, **자동 속도**
+- **퍼센트** — presets `0–100%`, custom input, **자동 %**
 
-Use this to test the horse run animation at different speeds without changing the main app.
+Horse gallop speed follows the % on screen (slow → normal → fast). The main app at `/` is unchanged.
 
 ## How the app behaves
 
@@ -77,12 +76,15 @@ TaxiMeter/
     ├── hooks/
     │   └── useTaxiMeter.js # State + timers: mode, fare, countdown, surcharge, speed, handlers
     │
-    ├── test/                 # Manual speed test UI (not in main app)
+    ├── test/                 # Separate test app (not used by main entry)
     │   ├── main.jsx
     │   ├── TestApp.jsx
-    │   ├── ManualSpeedPanel.jsx
+    │   ├── TestMeterScreen.jsx
+    │   ├── TestControlMenu.jsx   # Speed + % menu (bottom-right)
+    │   ├── TestMeterHorseBlock.jsx
     │   ├── useTestMeter.js
-    │   └── test.css
+    │   ├── test.css
+    │   └── screens/              # Test-only screen copies
     │
     └── screen/
         ├── index.jsx       # Routes to the correct screen based on mode / surcharge

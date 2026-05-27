@@ -5,7 +5,7 @@ import { MeterMeta } from "./shared/MeterMeta.jsx";
 import { MeterFare } from "./shared/MeterFare.jsx";
 import { MeterBottom } from "./shared/MeterBottom.jsx";
 
-/** 주행 (시외) — live fare, countdown, and speed simulation */
+/** 주행 — live fare, countdown, and speed simulation */
 export function DrivingScreen({ meter }) {
   return (
     <ScreenLayout
@@ -17,6 +17,7 @@ export function DrivingScreen({ meter }) {
         <MeterHorseBlock
           percent={meter.horsePercent}
           speedKmh={meter.speedKmh}
+          surcharge={meter.surcharge}
         />
         <MeterMeta speed={meter.speed} />
         <MeterFare fare={meter.fare} />

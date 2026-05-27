@@ -1,7 +1,6 @@
-import { HorseAnimation } from "./HorseAnimation.jsx";
+import { HorseAnimation } from "../screen/shared/HorseAnimation.jsx";
 
-export function MeterHorseBlock({ percent, speedKmh = 0, surcharge = false }) {
-  const isRunning = speedKmh > 0;
+export function TestMeterHorseBlock({ percent, isRunning, surcharge = false }) {
   const variant = surcharge ? "hurry" : "green";
 
   return (

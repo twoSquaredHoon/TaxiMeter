@@ -1,8 +1,7 @@
-export function MeterBottom({ countdown, secondary = "0" }) {
+export function MeterBottom({ countdown }) {
   return (
     <div className="meter-bottom">
       <span className="meter-countdown">{countdown}</span>
-      <span className="meter-secondary">{secondary}</span>
     </div>
   );
 }

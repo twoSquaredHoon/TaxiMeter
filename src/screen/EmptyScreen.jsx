@@ -15,7 +15,7 @@ export function EmptyScreen({ meter }) {
     >
       <MeterSection>
         <MeterHorseBlock percent="0%" speedKmh={0} />
-        <MeterMeta speed="0.0 Km/h" />
+        <MeterMeta speed={meter.speed} />
         <MeterFare fare={meter.fare} />
         <MeterBottom countdown={meter.countdown} />
       </MeterSection>

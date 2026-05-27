@@ -17,6 +17,7 @@ export function SurchargeScreen({ meter }) {
         <MeterHorseBlock
           percent={meter.horsePercent}
           speedKmh={meter.speedKmh}
+          surcharge
         />
         <MeterMeta speed={meter.speed} />
         <MeterFare fare={meter.fare} />
